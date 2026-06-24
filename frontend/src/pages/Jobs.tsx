@@ -151,7 +151,7 @@ export default function Jobs() {
       {!loading && (
         <p className="sub statusline">
           {filtered.length === jobs.length
-            ? `loaded ${jobs.length.toLocaleString()} openings from last ${monthsLoaded} months`
+            ? `${jobs.length.toLocaleString()} openings from last ${monthsLoaded} months`
             : `${filtered.length.toLocaleString()} of ${jobs.length.toLocaleString()} openings match`}
         </p>
       )}

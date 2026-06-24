@@ -30,7 +30,7 @@ export default function Trends() {
       new XY(volumeRef.current, {
         yLabel: 'job posts',
         data: { datasets: [{ label: 'Posts / month', data: data.volume }] },
-        options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0,
+        options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0.4,
           legendPosition: upLeft, dataColors: ['#3a5a8a'] },
       })
     }
@@ -55,7 +55,7 @@ export default function Trends() {
     new XY(kwRef.current, {
       yLabel: '% of jobs',
       data: { datasets: active.map((k) => ({ label: k.label, data: k.data })) },
-      options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0,
+      options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0.4,
         legendPosition: upLeft, dataColors: active.map((k) => colorFor(k.key)) },
     })
   }, [data, selected])

@@ -49,18 +49,19 @@ p.sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 24px; }
 
 /* Jobs — controls */
 .searchbox { width: 100%; padding: 11px 14px; font-size: 0.95rem; border: 1px solid var(--line); border-radius: 8px; margin: 20px 0 10px; background: #fff; }
-.statusline { margin: 22px 0 14px; }
+/* .sub.statusline beats the base p.sub margin (which would otherwise win on specificity) */
+.sub.statusline { margin: 24px 0 14px; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .filters select, .filters input[type=text] { padding: 8px 10px; font-size: 0.86rem; border: 1px solid var(--line);
   border-radius: 8px; background: #fff; color: var(--ink); }
 .searchbox:focus, .filters select:focus, .filters input[type=text]:focus {
   outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-weak); }
 .filters input[type=text] { min-width: 150px; }
-.filters .chk { display: flex; align-items: center; gap: 5px; font-size: 0.86rem; color: #555; cursor: pointer;
-  padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
+.filters .chk { display: flex; align-items: center; gap: 6px; font-size: 0.86rem; color: #555; cursor: pointer;
+  padding: 8px 11px; border: 1px solid var(--line); border-radius: 8px; background: #fff; }
 .filters .chk:hover { border-color: var(--line-strong); }
 .filters .chk input { margin: 0; cursor: pointer; accent-color: var(--accent); }
-.filters .clearbtn { margin-left: auto; padding: 8px 14px; font-size: 0.84rem; border: 1px solid var(--line);
+.filters .clearbtn { margin-left: auto; padding: 8px 14px; font-size: 0.86rem; border: 1px solid var(--line);
   background: #fff; border-radius: 8px; cursor: pointer; color: var(--muted); transition: .12s; }
 .filters .clearbtn:hover { color: var(--ink); border-color: var(--line-strong); background: #f5f5f5; }
 .loadbar { text-align: center; margin-top: 24px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
