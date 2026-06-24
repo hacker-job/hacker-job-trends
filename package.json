@@ -10,8 +10,8 @@
   "scripts": {
     "update": "tsx src/update.ts",
     "backfill": "tsx src/backfill.ts",
+    "derive": "tsx src/derive.ts",
     "hackers": "tsx src/fetchHackers.ts",
-    "build": "tsx src/buildSite.ts",
     "serve": "python3 -m http.server -d site 8080"
   },
   "keywords": [

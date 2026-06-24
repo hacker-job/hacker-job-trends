@@ -54,14 +54,16 @@ Requires Node 18+ (uses global `fetch`).
 ```bash
 npm install
 npm run serve      # preview at http://localhost:8080 (must be http, pages fetch())
-npm run build      # re-derive manifest + trends.json and rewrite the app shells
 ```
+
+There is no build step. The pages in `site/` are plain static files — edit the
+HTML, `app.css`, `nav.js`, or the per-page `*.js` directly and refresh.
 
 ## Data pipeline
 
-There is no database. The month files under `site/data/jobs/` *are* the dataset —
-each line is one job with the raw HN text and the AI-extracted fields. They're
-committed, so the dataset travels with the repo.
+There is no database either. The month files under `site/data/jobs/` *are* the
+dataset — each line is one job with the raw HN text and the AI-extracted fields.
+They're committed, so the dataset travels with the repo.
 
 **Daily incremental update** — pull new posts from the *current* "Who is hiring?"
 thread (people keep posting all month), AI-parse them, and append to the month's
@@ -69,11 +71,11 @@ file:
 
 ```bash
 npm run update     # current thread → parse new posts → append to site/data/jobs/<month>.json
-npm run build      # re-derive manifest + trends.json and refresh the app shells
 ```
 
-`update` already refreshes the manifest and trends; `build` is only needed when
-the app code changed. Commit `site/data/` afterwards.
+`update` also refreshes the manifest and `trends.json`; just commit `site/data/`
+afterwards. If you change the derivation itself (e.g. the keyword list in
+`store.ts`), run `npm run derive` to regenerate those without new data.
 
 **Full rebuild from scratch** (disaster recovery) — walk every historical
 "Who is hiring?" thread and parse anything missing. Idempotent and expensive:
@@ -90,8 +92,7 @@ server).
 To refresh the Hackers list (needs a token belonging to the sponsored account):
 
 ```bash
-GITHUB_TOKEN=ghp_xxx npm run hackers   # → data/hackers.json
-npm run build
+GITHUB_TOKEN=ghp_xxx npm run hackers   # → site/data/hackers.json
 ```
 
 ## Automation

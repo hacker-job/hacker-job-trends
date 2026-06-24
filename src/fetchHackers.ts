@@ -91,7 +91,7 @@ async function main() {
     bio: (s.bio || s.description) || undefined,
   }));
 
-  const out = path.resolve("data/hackers.json");
+  const out = path.resolve("site/data/hackers.json");
   fs.writeFileSync(out, JSON.stringify(hackers, null, 2) + "\n");
   console.log(`Wrote ${hackers.length} hacker(s) → ${out}`);
 }

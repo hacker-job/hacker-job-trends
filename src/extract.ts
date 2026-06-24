@@ -8,21 +8,6 @@
  */
 import OpenAI from "openai";
 
-export function stripHtml(html: string): string {
-  return html
-    .replace(/<p>/gi, "\n")
-    .replace(/<br\s*\/?>/gi, "\n")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#x27;/g, "'")
-    .replace(/&#x2F;/g, "/")
-    .replace(/&nbsp;/g, " ")
-    .trim();
-}
-
 const PROMPT = `Extract structured job info from this HN job post. Return JSON only:
 {
   "company": string,
@@ -61,10 +46,11 @@ export interface JobInfo {
   visa?: boolean | null;
 }
 
+// `text` should already be cleaned (see store.cleanText).
 export async function extractJob(text: string): Promise<JobInfo> {
   const res = await client.chat.completions.create({
     model: MODEL,
-    messages: [{ role: "user", content: PROMPT + stripHtml(text).slice(0, 800) }],
+    messages: [{ role: "user", content: PROMPT + text.slice(0, 800) }],
     response_format: {
       type: "json_schema",
       json_schema: {

@@ -5,87 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>hacker·job — Hackers</title>
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<style>
-  :root { --accent: #e85d04; --ink: #1a1a1a; --muted: #777; --line: #e5e5e5; --bg: #fafafa; }
-  * { box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); margin: 0; background: var(--bg); }
-  a { color: var(--accent); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  header.nav { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
-  .nav-inner { max-width: 980px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 28px; height: 56px; }
-  .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 1.05rem; color: var(--ink); }
-  .brand:hover { text-decoration: none; }
-  .brand .mark { width: 26px; height: 26px; display: block; }
-  .brand b { color: var(--accent); }
-  .nav-links { display: flex; gap: 22px; margin-left: auto; }
-  .nav-links a { color: var(--muted); font-size: 0.92rem; font-weight: 500; }
-  .nav-links a.active { color: var(--ink); }
-  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
-  h1 { font-size: 1.5rem; margin: 0 0 4px; }
-  p.sub { color: var(--muted); font-size: 0.88rem; margin: 0 0 24px; }
-</style>
+<link rel="stylesheet" href="app.css" />
 </head>
 <body>
-<header class="nav"><div class="nav-inner">
-  <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="hacker·job logo">
-  <rect width="32" height="32" rx="7" fill="#e85d04"/>
-  <path d="M10 10 L16 16 L10 22" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M18 22 H23" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
-</svg><span>hacker<b>·</b>job</span></a>
-  <nav class="nav-links">
-    <a href="hackers.html" class="active">Hackers</a>
-    <a href="index.html">Jobs</a>
-    <a href="trends.html">Trends</a>
-  </nav>
-</div></header>
 <main class="wrap">
-<h1>Hackers</h1>
-<p class="sub">Talented people who back hacker·job. Reach out, collaborate, or hire them.</p>
+  <h1>Hackers</h1>
+  <p class="sub">Talented people who back hacker·job. Reach out, collaborate, or hire them.</p>
 
-<div id="hackers"></div>
+  <div id="hackers"></div>
 
-<section class="join">
-  <h2>Get listed here</h2>
-  <ol class="steps">
-    <li><a href="https://github.com/sponsors/timqian" target="_blank" rel="noopener">Sponsor <b>timqian</b></a> on GitHub.</li>
-    <li>Your info will appear here soon. ✨</li>
-  </ol>
-</section></main>
-<script>
-function esc(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-function card(h){
-  const url = esc(h.url || 'https://github.com/'+h.login);
-  const avatar = esc(h.avatar || 'https://github.com/'+h.login+'.png');
-  return '<a class="hacker" href="'+url+'" target="_blank" rel="noopener">'
-    + '<img src="'+avatar+'" alt="'+esc(h.login)+'" loading="lazy" />'
-    + '<div class="h-name">'+esc(h.name || h.login)+'</div>'
-    + '<div class="h-login">@'+esc(h.login)+'</div>'
-    + (h.bio?'<div class="h-bio">'+esc(h.bio)+'</div>':'')
-    + '</a>';
-}
-fetch('data/hackers.json').then(r=>r.json()).then(list=>{
-  const el = document.getElementById('hackers');
-  el.innerHTML = list.length
-    ? '<div class="hackers-grid">'+list.map(card).join('')+'</div>'
-    : '<div class="empty"><div class="empty-icon">🧑‍💻</div><p>No hackers listed yet.</p>'
-      + '<p class="sub">Sponsors will appear here soon — be the first!</p></div>';
-}).catch(e=>console.error(e));
-</script>
-<style>
-  .hackers-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(190px, 1fr)); gap:14px; margin-bottom:36px; }
-  .hacker { display:block; background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; text-align:center; color:var(--ink); transition:border-color .12s, transform .12s; }
-  .hacker:hover { border-color:var(--accent); transform:translateY(-2px); text-decoration:none; }
-  .hacker img { width:64px; height:64px; border-radius:50%; object-fit:cover; }
-  .h-name { font-weight:700; margin-top:10px; }
-  .h-login { color:var(--muted); font-size:0.82rem; }
-  .h-bio { color:#555; font-size:0.82rem; margin-top:8px; line-height:1.4; }
-  .empty { text-align:center; padding:48px 0; background:#fff; border:1px dashed var(--line); border-radius:12px; margin-bottom:36px; }
-  .empty-icon { font-size:2.4rem; }
-  .empty p { margin:6px 0 0; }
-  .join { background:#fff; border:1px solid var(--line); border-radius:12px; padding:22px 26px; }
-  .join h2 { font-size:1.1rem; margin:0 0 14px; }
-  .steps { margin:0; padding-left:22px; line-height:1.9; color:#333; }
-  .steps code { background:var(--bg); border:1px solid var(--line); border-radius:5px; padding:1px 6px; font-size:0.86em; }
-</style>
+  <section class="join">
+    <h2>Get listed here</h2>
+    <ol class="steps">
+      <li><a href="https://github.com/sponsors/timqian" target="_blank" rel="noopener">Sponsor <b>timqian</b></a> on GitHub.</li>
+      <li>Your info will appear here soon. ✨</li>
+    </ol>
+  </section>
+</main>
+<script src="nav.js"></script>
+<script src="hackers.js"></script>
 </body>
 </html>

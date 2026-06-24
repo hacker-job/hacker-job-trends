@@ -42,7 +42,8 @@ export async function processThread(storyId: string, month: string, concurrency 
 
   await Promise.all(candidates.map((c) => limit(async () => {
     try {
-      const p = await extractJob(c.text!);
+      const text = cleanText(c.text);
+      const p = await extractJob(text);
       if (!p.company) { failed++; return; }
       added.push({
         id: c.id,
@@ -59,7 +60,7 @@ export async function processThread(storyId: string, month: string, concurrency 
         tech_stack: p.tech_stack ?? [],
         job_type: p.job_type ?? null,
         visa: p.visa == null ? null : p.visa ? 1 : 0,
-        text: cleanText(c.text),
+        text,
       });
     } catch {
       failed++; // transient parse failures are retried on the next run
