@@ -42,6 +42,13 @@ ones on demand. The app can be updated without touching data, and vice-versa.
 
 ## Develop
 
+Clone shallow and main-only — the old branches are heavy, and `main` carries the
+full committed dataset, so you don't need any history:
+
+```bash
+git clone --depth 1 --single-branch --branch main git@github.com:hacker-job/hacker-job-trends.git
+```
+
 Requires Node 18+ (uses global `fetch`).
 
 ```bash
