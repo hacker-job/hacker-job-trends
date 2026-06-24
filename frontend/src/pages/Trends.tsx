@@ -82,13 +82,17 @@ export default function Trends() {
       <section className="panel">
         <h2>Average salary over time</h2>
         <p className="hint">USD only · months with ≥5 salary disclosures · mid = (min + max) / 2</p>
-        <svg ref={salaryRef} className="chart"></svg>
+        <div>
+          <svg ref={salaryRef} className="chart"></svg>
+        </div>
       </section>
 
       <section className="panel">
         <h2>Job posts per month</h2>
         <p className="hint">How many "Who is Hiring?" posts each month's thread collected.</p>
-        <svg ref={volumeRef} className="chart"></svg>
+        <div>
+          <svg ref={volumeRef} className="chart"></svg>
+        </div>
         <p className="note">
           <b>Mar 2020</b> — COVID-19 declared a pandemic&nbsp;&nbsp;·&nbsp;&nbsp;<b>Nov 30, 2022</b> — ChatGPT released
         </p>
@@ -105,7 +109,9 @@ export default function Trends() {
           ))}
           <a className="chip suggest" href={SUGGEST_URL} target="_blank" rel="noopener">+ Suggest new keyword</a>
         </div>
-        <svg ref={kwRef} className="chart"></svg>
+        <div>
+          <svg ref={kwRef} className="chart"></svg>
+        </div>
       </section>
     </>
   )
