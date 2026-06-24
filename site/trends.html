@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>hacker·job — Trends</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<style>
+  :root { --accent: #e85d04; --ink: #1a1a1a; --muted: #777; --line: #e5e5e5; --bg: #fafafa; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color: var(--ink); margin: 0; background: var(--bg); }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  header.nav { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; }
+  .nav-inner { max-width: 980px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; gap: 28px; height: 56px; }
+  .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 1.05rem; color: var(--ink); }
+  .brand:hover { text-decoration: none; }
+  .brand .mark { width: 26px; height: 26px; display: block; }
+  .brand b { color: var(--accent); }
+  .nav-links { display: flex; gap: 22px; margin-left: auto; }
+  .nav-links a { color: var(--muted); font-size: 0.92rem; font-weight: 500; }
+  .nav-links a.active { color: var(--ink); }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 80px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  p.sub { color: var(--muted); font-size: 0.88rem; margin: 0 0 24px; }
+</style>
+</head>
+<body>
+<header class="nav"><div class="nav-inner">
+  <a href="index.html" class="brand"><svg class="mark" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="hacker·job logo">
+  <rect width="32" height="32" rx="7" fill="#e85d04"/>
+  <path d="M10 10 L16 16 L10 22" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18 22 H23" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+</svg><span>hacker<b>·</b>job</span></a>
+  <nav class="nav-links">
+    <a href="hackers.html">Hackers</a>
+    <a href="index.html">Jobs</a>
+    <a href="trends.html" class="active">Trends</a>
+  </nav>
+</div></header>
+<main class="wrap">
+<h1>Trends</h1>
+<p class="sub" id="sub">Loading…</p>
+
+<section class="panel">
+  <h2>Average salary over time</h2>
+  <p class="hint">USD only · months with ≥5 salary disclosures · mid = (min + max) / 2</p>
+  <svg id="salary" class="chart"></svg>
+</section>
+
+<section class="panel">
+  <h2>Keyword popularity</h2>
+  <p class="hint">% of each month's jobs mentioning the keyword. Toggle keywords to compare.</p>
+  <div class="chips" id="chips"></div>
+  <svg id="keywords" class="chart"></svg>
+</section></main>
+<script src="https://cdn.jsdelivr.net/npm/chart.xkcd@1.1/dist/chart.xkcd.min.js"></script>
+<script>
+const PALETTE = ['#e85d04','#1e7d34','#3a5a8a','#9b2226','#7b2cbf','#0096c7','#c9184a','#5f7d00','#bc6c25','#118ab2','#d62828','#2a9d8f','#6a4c93','#ef476f'];
+let KW = [];
+const selected = new Set();
+function colorFor(key){ const i = KW.findIndex(k=>k.key===key); return PALETTE[i % PALETTE.length]; }
+
+function drawKeywords(){
+  const svg = document.getElementById('keywords');
+  svg.innerHTML = '';
+  const active = KW.filter(k=>selected.has(k.key));
+  if(!active.length) return;
+  new chartXkcd.XY(svg, {
+    yLabel: '% of jobs',
+    data: { datasets: active.map(k=>({ label: k.label, data: k.data })) },
+    options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0,
+      legendPosition: chartXkcd.config.positionType.upLeft,
+      dataColors: active.map(k=>colorFor(k.key)) }
+  });
+}
+
+async function load(){
+  const t = await fetch('data/trends.json').then(r=>r.json());
+  document.getElementById('sub').textContent =
+    'Signals from '+t.meta.months+' months of HN hiring posts ('+t.meta.from+' → '+t.meta.to+')';
+
+  new chartXkcd.XY(document.getElementById('salary'), {
+    yLabel: 'USD',
+    data: { datasets: [{ label: 'Avg mid salary', data: t.salary }] },
+    options: { xTickCount: 8, yTickCount: 5, timeFormat: 'YYYY-MM', showLine: true, dotSize: 0.4,
+      legendPosition: chartXkcd.config.positionType.upLeft, dataColors: ['#e85d04'] }
+  });
+
+  KW = t.keywords;
+  KW.filter(k=>k.default).forEach(k=>selected.add(k.key));
+  const chips = document.getElementById('chips');
+  chips.innerHTML = KW.map(k=>'<button class="chip'+(k.default?' on':'')+'" data-k="'+k.key+'">'+k.label+'</button>').join('');
+  chips.querySelectorAll('.chip').forEach(btn=>{
+    btn.onclick = ()=>{
+      const k = btn.dataset.k;
+      if(selected.has(k)){ selected.delete(k); btn.classList.remove('on'); }
+      else { selected.add(k); btn.classList.add('on'); }
+      drawKeywords();
+    };
+  });
+  drawKeywords();
+}
+load().catch(e=>{ document.getElementById('sub').textContent='Failed to load trends data.'; console.error(e); });
+</script>
+<style>
+  .panel { background:#fff; border:1px solid var(--line); border-radius:12px; padding:20px 22px; margin-bottom:24px; padding-right:34px; }
+  .panel h2 { font-size:1.05rem; margin:0 0 2px; }
+  .hint { color:var(--muted); font-size:0.82rem; margin:0 0 14px; }
+  .chart { width:100%; overflow:visible; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+  .chip { font-size:0.82rem; padding:5px 12px; border:1px solid var(--line); background:#fff; color:#555;
+          border-radius:20px; cursor:pointer; transition:all .12s; }
+  .chip:hover { border-color:#bbb; }
+  .chip.on { background:var(--accent); border-color:var(--accent); color:#fff; }
+</style>
+</body>
+</html>

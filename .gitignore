@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# source data: the SQLite DB (>100MB) and raw HN cache are regenerable via the
+# fetch → import → parse pipeline, so they're not tracked. (The generated app
+# data under site/data/ IS tracked — that's what the site serves.)
+/data/
+
+# working notes — keep only README.md
+*.md
+!README.md
+
+# build artifacts
+dist/
+
+# macOS
+.DS_Store

@@ -1,0 +1,35 @@
+{
+  "name": "hacker-job-trends",
+  "version": "1.0.0",
+  "description": "Searchable jobs and hiring trends from Hacker News \"Who is Hiring?\" posts.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timqian/hacker-job-trends.git"
+  },
+  "scripts": {
+    "update": "tsx src/update.ts",
+    "backfill": "tsx src/backfill.ts",
+    "hackers": "tsx src/fetchHackers.ts",
+    "build": "tsx src/buildSite.ts",
+    "serve": "python3 -m http.server -d site 8080"
+  },
+  "keywords": [
+    "hacker-news",
+    "jobs",
+    "who-is-hiring",
+    "trends"
+  ],
+  "author": "timqian",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "chart.xkcd": "^2.0.12",
+    "openai": "^6.42.0",
+    "p-limit": "^7.3.0"
+  }
+}
