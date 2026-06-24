@@ -124,7 +124,10 @@ export default function Jobs() {
 
   return (
     <>
-      <h1>Jobs <small>from <a href="https://news.ycombinator.com/submitted?id=whoishiring" target="_blank" rel="noopener">HN "Who is hiring"</a></small></h1>
+      <h1>Jobs</h1>
+      <p className="sub">
+        Recent openings from HN's monthly <a href="https://news.ycombinator.com/submitted?id=whoishiring" target="_blank" rel="noopener">"Who is hiring?"</a> threads.
+      </p>
 
       <input className="searchbox" type="search" placeholder="Search company, role, location, stack…"
         value={q} onChange={(e) => setQ(e.target.value)} />

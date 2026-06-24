@@ -37,10 +37,9 @@ header.nav {
 
 .wrap { max-width: 1040px; margin: 0 auto; padding: 36px 24px 96px; }
 h1 { font-size: 1.7rem; margin: 0 0 4px; letter-spacing: -0.025em; font-weight: 700; }
-h1 small { font-size: 0.92rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
-h1 small a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
-h1 small a:hover { color: var(--accent); }
 p.sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 24px; }
+p.sub a { color: var(--muted); text-decoration: underline; text-underline-offset: 2px; }
+p.sub a:hover { color: var(--accent); }
 
 /* Loading */
 .spinner { width: 28px; height: 28px; margin: 64px auto; border: 3px solid var(--line); border-top-color: var(--accent);
@@ -48,7 +47,7 @@ p.sub { color: var(--muted); font-size: 0.9rem; margin: 0 0 24px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* Jobs — controls */
-.searchbox { width: 100%; padding: 11px 14px; font-size: 0.95rem; border: 1px solid var(--line); border-radius: 8px; margin: 20px 0 10px; background: #fff; }
+.searchbox { width: 100%; padding: 11px 14px; font-size: 0.95rem; border: 1px solid var(--line); border-radius: 8px; margin: 0 0 10px; background: #fff; }
 /* .sub.statusline beats the base p.sub margin (which would otherwise win on specificity) */
 .sub.statusline { margin: 24px 0 14px; }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
