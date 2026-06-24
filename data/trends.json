@@ -1181,7 +1181,7 @@
     {
       "key": "react",
       "label": "React",
-      "default": true,
+      "default": false,
       "data": [
         {
           "x": "2012-12",
@@ -1832,7 +1832,7 @@
     {
       "key": "vue",
       "label": "Vue",
-      "default": true,
+      "default": false,
       "data": [
         {
           "x": "2012-12",
@@ -2483,7 +2483,7 @@
     {
       "key": "angular",
       "label": "Angular",
-      "default": true,
+      "default": false,
       "data": [
         {
           "x": "2012-12",
@@ -7040,7 +7040,7 @@
     {
       "key": "java",
       "label": "Java",
-      "default": false,
+      "default": true,
       "data": [
         {
           "x": "2012-12",
@@ -17456,7 +17456,7 @@
     {
       "key": "ai",
       "label": "AI",
-      "default": false,
+      "default": true,
       "data": [
         {
           "x": "2012-12",
