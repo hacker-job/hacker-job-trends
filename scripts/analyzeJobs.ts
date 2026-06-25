@@ -49,9 +49,10 @@ export async function analyzePosts(
     try {
       const job = await analyzePost(r);
       if (job) jobs.push(job);
-      else failedIds.add(r.id); // not a job post (no company)
-    } catch {
-      failedIds.add(r.id); // transient parse failure — retried on the next run
+      else { failedIds.add(r.id); console.warn(`  post ${r.id}: no company extracted`); }
+    } catch (err) {
+      failedIds.add(r.id); // transient failure — retried on the next run
+      console.warn(`  post ${r.id} failed: ${err instanceof Error ? err.message : String(err)}`);
     }
   })));
   return { jobs, failedIds };
