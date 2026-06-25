@@ -1,10 +1,15 @@
 name: Deploy to Pages
 
 # Builds the Vite app and bundles the dataset, then publishes to GitHub Pages.
-# Runs on app changes and on the daily data commit (so the live site stays fresh).
+# Runs on app changes (push) and after the data workflows finish — those commit
+# with GITHUB_TOKEN, whose pushes can't trigger another workflow's `push` event,
+# so we hook their completion via `workflow_run` to keep the live site fresh.
 on:
   push:
     branches: [main]
+  workflow_run:
+    workflows: ["Daily job update", "Refresh GitHub data"]
+    types: [completed]
   workflow_dispatch: {}
 
 permissions:
@@ -20,6 +25,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # On a workflow_run trigger, only deploy if the data workflow succeeded;
+    # push / manual dispatch always proceed.
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     steps:
       - uses: actions/checkout@v7
 
