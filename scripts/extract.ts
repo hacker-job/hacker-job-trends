@@ -55,8 +55,13 @@ export async function extractJob(text: string): Promise<JobInfo> {
       type: "json_schema",
       json_schema: {
         name: "job_info",
+        // OpenAI structured outputs require every key in `required` and no extra
+        // keys; nullable fields use a `["…", "null"]` type union so the model can
+        // still omit them (returns null). LM Studio is lenient but OpenAI is not.
+        strict: true,
         schema: {
           type: "object",
+          additionalProperties: false,
           properties: {
             company:         { type: "string" },
             roles:           { type: "array", items: { type: "string" } },
@@ -70,7 +75,10 @@ export async function extractJob(text: string): Promise<JobInfo> {
             job_type:        { type: ["string", "null"], enum: ["full-time", "part-time", "contract", "intern", null] },
             visa:            { type: ["boolean", "null"] },
           },
-          required: ["company", "roles", "tech_stack"],
+          required: [
+            "company", "roles", "location", "remote_type", "remote_regions",
+            "salary_min", "salary_max", "salary_currency", "tech_stack", "job_type", "visa",
+          ],
         },
       },
     },
