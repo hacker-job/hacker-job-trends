@@ -39,7 +39,7 @@ jobs:
         run: |
           mkdir -p frontend/dist/data
           cp -r data/jobs frontend/dist/data/jobs
-          cp data/trends.json data/hackers.json data/founder.json frontend/dist/data/
+          cp data/trends.json data/hackers.json frontend/dist/data/
           # SPA fallback so client routes (/trends, /hackers) work on refresh
           cp frontend/dist/index.html frontend/dist/404.html
 
