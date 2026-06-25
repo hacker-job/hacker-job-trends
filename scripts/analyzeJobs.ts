@@ -52,7 +52,9 @@ export async function analyzePosts(
       else { failedIds.add(r.id); console.warn(`  post ${r.id}: no company extracted`); }
     } catch (err) {
       failedIds.add(r.id); // transient failure — retried on the next run
-      console.warn(`  post ${r.id} failed: ${err instanceof Error ? err.message : String(err)}`);
+      const e = err as { status?: number; message?: string; error?: unknown };
+      console.warn(`  post ${r.id} failed: ${e.status ?? ""} ${e.message ?? err}`
+        + (e.error ? ` | ${JSON.stringify(e.error)}` : ""));
     }
   })));
   return { jobs, failedIds };
