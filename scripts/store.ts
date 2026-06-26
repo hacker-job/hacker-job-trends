@@ -139,6 +139,7 @@ export const KEYWORDS: { key: string; label: string; patterns: string[]; default
   { key: "ai", label: "AI", patterns: ["% ai %", "%(ai)%", "% ai,", "% ai.", "%a.i.%"] },
   { key: "ml", label: "ML / Machine Learning", patterns: ["%machine learning%", "% ml %", "% ml,"] },
   { key: "llm", label: "LLM", patterns: ["%llm%", "%large language model%"] },
+  { key: "ai-agent", label: "AI Agent", patterns: ["%ai agent%", "%agentic%"] },
 ];
 
 const MONTH_MIN_JOBS = 30; // ignore sparse months in trend lines
