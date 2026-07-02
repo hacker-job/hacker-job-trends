@@ -57,8 +57,10 @@ jobs:
       # A push made with GITHUB_TOKEN does NOT trigger other workflows (GitHub's
       # anti-recursion rule), so deploy.yml's `push` trigger never fires for the
       # data commit. Dispatch it explicitly when the data actually changed.
+      # Pass the exact commit SHA: `main` may not have propagated yet, so
+      # dispatching by ref alone can build the pre-push commit (stale data).
       - name: Trigger deploy
         if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run deploy.yml --ref main
+        run: gh workflow run deploy.yml --ref main -f sha="$(git rev-parse HEAD)"

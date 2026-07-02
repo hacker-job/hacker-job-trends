@@ -52,9 +52,10 @@ jobs:
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       # A push made with GITHUB_TOKEN doesn't trigger deploy.yml's push event, so
-      # dispatch it explicitly when the derived data actually changed.
+      # dispatch it explicitly when the derived data actually changed. Pass the
+      # exact SHA so we don't race `main` propagation and build stale data.
       - name: Trigger deploy
         if: steps.commit.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run deploy.yml --ref main
+        run: gh workflow run deploy.yml --ref main -f sha="$(git rev-parse HEAD)"

@@ -5,7 +5,11 @@ name: Deploy to Pages
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: Commit SHA to build (defaults to the triggering ref)
+        required: false
 
 permissions:
   contents: read
@@ -21,7 +25,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Build the exact commit we were asked to. When a data workflow dispatches
+      # us right after pushing, `main` may not have propagated yet, so relying on
+      # the ref would build the pre-push commit — pin to the passed SHA instead.
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.inputs.sha || github.sha }}
 
       - uses: actions/setup-node@v6
         with:
